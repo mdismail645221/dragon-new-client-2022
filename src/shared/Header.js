@@ -5,6 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { AuthContext } from '../contexts/AuthProvider';
+import { FaUserLock} from "react-icons/fa";
 
 
 const Header = () => {
@@ -42,8 +43,10 @@ const Header = () => {
                             </Nav.Link>
                             <Nav.Link eventKey={2} href="#memes">
                                 {
-                                    user?.email &&
-                                    <Image roundedCircle style={{height: '30px'}} src={user.photoURL}></Image>
+                                    user?.email ?
+                                        <Image roundedCircle style={{ height: '30px' }} src={user.photoURL}></Image>
+                                        :
+                                    <button style={{boderRadius: '50px'}}  className='bg-primary btn btn-outline-danger'><FaUserLock className='fs-3 text-danger'/></button>
                                 }
                             </Nav.Link>
                         </Nav>

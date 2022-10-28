@@ -9,8 +9,8 @@ import Footer from '../shared/Footer';
 const Main = () => {
     return (
         <div>
-            <Container>
             <Header></Header>
+            <Container className='my-5 pt-5'>
                     <Row>
                     <Col lg='2'>
                         <LeftSideNav></LeftSideNav>
@@ -22,8 +22,8 @@ const Main = () => {
                         <RightSideaside></RightSideaside>
                     </Col>
                     </Row>
-                <Footer></Footer>
             </Container>
+            <Footer></Footer>
         </div>
     );
 };

@@ -1,5 +1,6 @@
-import React, {useContext} from 'react';
-import { Image } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import {Link} from 'react-router-dom' ;
+import { Button, Image, NavLink } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -10,19 +11,27 @@ import { FaUserLock} from "react-icons/fa";
 
 const Header = () => {
 
-    const { user } = useContext(AuthContext);
-    console.log(user)
+    const [error, setError] = useState();
+
+    const { user, logOut } = useContext(AuthContext);
+    // console.log(user)
+
+
+    const logOutHandle = () => {
+        logOut()
+    }
+
 
     return (
         <div>
             {/* -----------navbar start */}
 
-               <Navbar collapseOnSelect expand="lg">
+               <Navbar collapseOnSelect expand="lg" fixed="top" className='bg-secondary'>
                     <Container>
-                        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+                        <Link to='/'className='text-decoration-none'><Navbar.Brand>Dragon News Portal</Navbar.Brand></Link>
                         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                         <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto">
+                        <Nav className="m-auto">
                             <Nav.Link href="#features">Features</Nav.Link>
                             <Nav.Link href="#pricing">Pricing</Nav.Link>
                             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
@@ -37,14 +46,27 @@ const Header = () => {
                             </NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                        <Nav>
-                            <Nav.Link href="#deets">
-                                { user?.email && user.displayName }
-                            </Nav.Link>
-                            <Nav.Link eventKey={2} href="#memes">
+                        <Nav className='d-flex align-items-center'>
+                          
                                 {
-                                    user?.email ?
-                                        <Image roundedCircle style={{ height: '30px' }} src={user.photoURL}></Image>
+                                    user?.uid ?
+                                    <><span className='text-dark fs-4 fw-bold'>Wellcome..</span> <Nav.Link className='text-white fs-5  fw-bold'>{user.displayName}</Nav.Link></>
+                                    
+                                        :
+                                    <>
+                                        <Link className='text-white me-3 text-decoration-none' to='/login'>Login</Link>
+                                        <Link className='text-white me-3 text-decoration-none' to='/register'>Register</Link>
+                                    </>
+                                
+                                 }
+                            
+                            <Nav.Link eventKey={2}>
+                                {
+                                    user?.uid ?
+                                        <div className='d-flex align-items-center justify-content-center'>
+                                            <Image roundedCircle style={{ height: '30px' }} src={user?.photoURL}></Image>
+                                            <Button onClick={logOutHandle} className='mx-3'>Sign Out</Button>
+                                        </div>
                                         :
                                     <button style={{boderRadius: '50px'}}  className='bg-primary btn btn-outline-danger'><FaUserLock className='fs-3 text-danger'/></button>
                                 }
